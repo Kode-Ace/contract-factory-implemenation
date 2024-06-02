@@ -18,19 +18,28 @@ contract Compaign {
         mapping(address => bool) approvals;
     }
     address public manager;
+    string public name;
+    string public description;
     uint256 public minimumContribution;
     mapping(address => Approver) public approvers;
     Request[] public requests;
-    uint approversCount;
+    uint public approversCount;
 
     modifier onlyManager() {
         require(msg.sender == manager, "Only manager can call");
         _;
     }
 
-    constructor(uint _minimum) {
-        manager = msg.sender;
+    constructor(
+        uint _minimum,
+        string memory _name,
+        string memory _description,
+        address _creator
+    ) {
+        manager = _creator;
         minimumContribution = _minimum;
+        name = _name;
+        description = _description;
     }
 
     function contribute(
@@ -83,7 +92,7 @@ contract Compaign {
         public
         view
         returns (
-            string memory description,
+            string memory _description,
             uint256 value,
             address recipient,
             bool complete,
