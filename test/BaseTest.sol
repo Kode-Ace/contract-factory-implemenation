@@ -12,8 +12,7 @@ contract BaseTest is Test {
     // compaign contract
     Compaign public compaign;
     string public compaignName = "Create A trading Bot";
-    string public compaignDescription =
-        "Create a trading bot that can trade on ByBit to mine money";
+    string public compaignDescription = "Create a trading bot that can trade on ByBit to mine money";
     string public contributorName = "Omambia M";
     string public contributorEmail = "support@omambia.dev";
     address public manager = address(0x10000);
@@ -32,12 +31,7 @@ contract BaseTest is Test {
         // deploy the compaign contract
         vm.deal(manager, 10 ether);
         vm.startPrank(manager);
-        compaign = new Compaign(
-            minimumContribution,
-            compaignName,
-            compaignDescription,
-            manager
-        );
+        compaign = new Compaign(minimumContribution, compaignName, compaignDescription, manager);
         vm.stopPrank();
     }
 }

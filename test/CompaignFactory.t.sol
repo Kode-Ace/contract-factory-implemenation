@@ -14,11 +14,7 @@ contract CompaignTest is BaseTest {
     function test_createCompaign() public {
         vm.deal(manager, 10 ether);
         vm.startPrank(manager);
-        factory.createCompaign(
-            minimumContribution,
-            compaignName,
-            compaignDescription
-        );
+        factory.createCompaign(minimumContribution, compaignName, compaignDescription);
         vm.stopPrank();
         address[] memory compaigns = factory.getDeployedCompaigns();
         console.log("First Compaign: ", compaigns[0]);
@@ -28,8 +24,8 @@ contract CompaignTest is BaseTest {
     function test_compaign_create_listing_and_get_info() public {
         vm.deal(manager, 10 ether);
         vm.startPrank(manager);
-        uint count = 5;
-        for (uint i = 0; i < count; i++) {
+        uint256 count = 5;
+        for (uint256 i = 0; i < count; i++) {
             factory.createCompaign(
                 minimumContribution,
                 string(abi.encodePacked(i + 1, "-", compaignName)),
@@ -38,16 +34,13 @@ contract CompaignTest is BaseTest {
         }
         vm.stopPrank();
         address[] memory compaigns = factory.getDeployedCompaigns();
-        for (uint i = 0; i < compaigns.length; i++) {
+        for (uint256 i = 0; i < compaigns.length; i++) {
             console.log("......................");
             Compaign compaign = Compaign(compaigns[i]);
             console.log("Compaign: ", compaign.name());
             console.log("Compaign Description: ", compaign.description());
             console.log("Compaign Manager: ", compaign.manager());
-            console.log(
-                "Minimum Contribution: ",
-                compaign.minimumContribution()
-            );
+            console.log("Minimum Contribution: ", compaign.minimumContribution());
             console.log("Approver Count: ", compaign.approversCount());
             console.log("......................");
         }
