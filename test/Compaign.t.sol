@@ -24,10 +24,18 @@ contract CompaignTest is BaseTest {
     function test_contribute() public payable {
         vm.deal(contributor1Address, 1 ether);
         vm.startPrank(contributor1Address);
-        compaign.contribute{value: contributedAmount}(contributorName, contributorEmail);
-        (address addr, string memory name, string memory email, uint256 amount) =
-            compaign.approvers(contributor1Address);
-
+        compaign.contribute{value: contributedAmount}(
+            contributorName,
+            contributorEmail
+        );
+        (
+            address addr,
+            string memory name,
+            string memory email,
+            uint256 amount,
+            address _token
+        ) = compaign.approvers(contributor1Address);
+        console.log("Token Contributed: ", _token);
         console.log("Contributor Address: ", addr);
         console.log("Contributor Name: ", name);
         console.log("Contributor Email: ", email);
@@ -43,8 +51,13 @@ contract CompaignTest is BaseTest {
         vm.deal(manager, 10 ether);
         vm.startPrank(manager);
         compaign.createRequest("Buy a new laptop", 5 ether, vendorAddress);
-        (string memory description, uint256 value, address recipient, bool complete, uint256 approvalCount) =
-            compaign.getRequestDetails(0);
+        (
+            string memory description,
+            uint256 value,
+            address recipient,
+            bool complete,
+            uint256 approvalCount
+        ) = compaign.getRequestDetails(0);
         assertEq(value, 5 ether);
         assertEq(approvalCount, 0);
         assertEq(complete, false);
